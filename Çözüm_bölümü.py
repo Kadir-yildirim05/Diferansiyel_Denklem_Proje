@@ -196,7 +196,6 @@ def denk_ayirmay(denklemm):
     return sympify(yler)
 
 ##### HATA analizi
-
 def secenek_al(secenekler,soru): #kullanıcının giridği seçenekleri kontrol etmek için kullanılır
     elemanın_girdigi=input(soru).replace(' ','')
     while True:
@@ -270,7 +269,8 @@ while True:
             denklem_turu=secenek_al(sırası1,"Girdiğiniz denklemi"+','.join(f"{tür} ile çözmek için {sırası} tuşuna " for tür, sırası in zip (cozumler3, siramiz1))+"basınız:")
 
     if cozumler3 ==[]:
-        denklem_turu = secenek_al(["1", "2", "3", "4"],"Çözülmesini istediğiniz denklem türünü giriniz\n1. Diferansiyel Denklemin Türünü Öğrenme: \n2. Değişkenlerine Ayrılabilir Diferansiyel Denklem Çözümü:\n3. Tam Diferansiyel Denklem Çözümü: \n4. Tam Hale Gelebilir Diferansiyel Denklem Çözümü:")
+        denklem_turu = secenek_al(["1", "2", "3", "4", "5"],"Çözülmesini istediğiniz denklem türünü giriniz\n1. Diferansiyel Denklemin Türünü Öğrenme: \n2. Değişkenlerine Ayrılabilir Diferansiyel Denklem Çözümü:\n3. Tam Diferansiyel Denklem Çözümü: "
+        "\n4. Tam Hale Gelebilir Diferansiyel Denklem Çözümü:\n5. Homojen Diferansiyel Denklem Çözümü")
         b=5
         if denklem_turu == '1':    #denklem türü hesaplama
             b=0
@@ -449,7 +449,6 @@ while True:
             #adim_listesi_oku(["Denkleminiz: "])
             pprint(y_lnduzelt(Eq(dxdyduzelt(donusum(sol_denklem)),dxdyduzelt(donusum(sag_denklem))))) # buradaki dx dyleri de düzeltmeyi öğren. y' ni de buraya ekle class için
             #adim_listesi_oku([Eq(donusum(sol_denklem),donusum(sag_denklem))])
-
             denklem = esittir_duzenleme(al_denklem)
     #buradaki if ve elsenin sebebi denklem dx_dy şeklinde çözüldüğü için y' olarak verilirse dx_dy çevirmemiz ama iki türüde uzun uzun kodlamak yerine aynı adıma gelecekleri yere kadar ayırdım sonraki adımları beraber ilerliyor
             if denklem.coeff(Derivative(y(x), x)) == 0: # denklem dx dy şeklindeyse
@@ -610,6 +609,8 @@ while True:
             pprint(tdd_cevap)
             #adim_listesi_oku([str(tdd_cevap)])
 
+            print("Eğer ikinci yoldan gitseydik şöyle olurdu.")
+
             F = symbols('F')
             print(f"\n\n\n 2) əF / əY = {y_lnduzelt(dykat)} iki tarafınıda y'e göre integralini alalım")
             #adim_listesi_oku([f"İkinci denklemi çözelim: Fe nin ye ye göre kısmi türevi eşittir {y_lnduzelt(dykat)}. Her iki tarafın ye ye göre integralini alalım."])
@@ -662,7 +663,7 @@ while True:
                 print("1. Durum: sadece x'e bağlı interal çarpan (My-Nx)/N(x,y) = f(x) ise e^∫f(x)dx şeklindedir.")#(Nx-My)/M(x,y) = f(y) ise e^∫f(y)dy şeklindedir. ifadesi (My-Nx)/N(x,y) = f(x) ise e^∫f(x)dx şeklindedir. şeklinde değiştirilmiştir
                 print("2. Durum: sadece y'ye bağlı interal çarpan (Nx-My)/M(x,y) = f(y) ise e^∫f(y)dy şeklindedir.")
                 #adim_listesi_oku(["İkinci durum: sadece ye ye bağlı integral çarpan, Ne ix eksi Me ye bölü Me eşittir fe ye ise e üzeri integral, fe ye, de ye şeklindedir."])
-                print("3. Durum: hem x'e hem y'ye bağlı integral çarpan (My-Nx)/(yN(x,y)-xM(x,y)) = f(x,y) ise e^∫f(x,y) dxdy şeklindedir.\n")
+                print("3. Durum: hem x'e hem y'ye bağlı integral çarpanı (My-Nx)/(yN(x,y)-xM(x,y)) = f(x,y) ise e^∫f(x,y) dxdy şeklindedir.\n")
                 #adim_listesi_oku(["Üçüncü durum: hem ix e hem ye ye bağlı integral çarpan, Me ye eksi Ne ix bölü, ye çarpı Ne eksi ix çarpı Me eşittir, f ix ye ise e üzeri çift integral, f ix ye, de ix de ye şeklindedir."])
             if simplify((My-Nx)/dykat).free_symbols <= {x}:
                 if b==5:
@@ -804,6 +805,16 @@ while True:
                 thg_pdf(denklempdf, dxkat, dykat, My, Nx, thg_dx_kat, thg_dy_kat, thgmis, zaman_etiketi, adimlar_listesi, pdf_birlestirme_icin)
 
 
+    if denklem_turu == '5':
+        if b==5:
+            al_denklem=denklem_kontrol("Diferansiyel denkleminizi giriniz: ")
+            sol_denklem, sag_denklem = al_denklem.split("=")
+            print("Denkleminiz:\n")
+            #adim_listesi_oku(["Denkleminiz: "])
+            pprint(y_lnduzelt(Eq(dxdyduzelt(donusum(sol_denklem)),dxdyduzelt(donusum(sag_denklem))))) # buradaki dx dyleri de düzeltmeyi öğren. y' ni de buraya ekle class için
+            #adim_listesi_oku([Eq(donusum(sol_denklem),donusum(sag_denklem))])
+
+
 
 #3. durumla tam hale gelebilen denk  (y-xy^3)dx+xdy=0  ama arama bunu tam hale gelebilir olarak görmüyor
 #(y^2 + e^y) dy/dx = x * sin(x) tam dif   bu denklemi tamdan çözünce cevap 0 çıkıyor  halloldu
@@ -900,5 +911,3 @@ while True:
 #tam hale gelebilir (ycos(x))dx+(2sin(x))dy=0 x'e bağlı
 #y(cos(xy))dx+x(cos(xy))dy=0 garip işlemler çıkarıyor tam dif
 #(e^xsin(y)-2ysin(x))dx+(e^xcos(y)+2cos(x))dy=0 bundada yer değiştirip aldığı için tam olarak almıor.
-
-
